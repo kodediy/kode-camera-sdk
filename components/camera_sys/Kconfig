@@ -1,0 +1,16 @@
+menu "Camera module SDK, extended layer (camera_sys.h)"
+
+    config CAMERA_SIG_OFFSET
+        int "First signal of the camera, counted from MAX_SIG"
+        range 1000 60000
+        default 1200
+        help
+            camera_sys.h posts its signals to Active Objects of the app, and
+            an Active Object cannot publish, so they are all direct-post ones
+            in a range of their own: CAMERA_SIG_FIRST = MAX_SIG + this. The
+            module SDKs have Mesh 1000, Robotics 1100, Camera 1200 and F*CK
+            1300, so that an app can use more than one. An app's own signals
+            go from MAX_SIG to MAX_SIG + 999. The range must fit a QSignal
+            (16 bits); a build that does not stops.
+
+endmenu

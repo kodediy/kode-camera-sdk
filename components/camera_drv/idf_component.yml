@@ -1,0 +1,31 @@
+version: "0.1.0"
+description: "The Camera module's drivers: the fingerprint, the OV5640 over SCCB, the DVP, the JPEG encoder."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera_drv"
+license: "GPL-3.0-or-later"
+targets:
+  - esp32p4
+
+## The board's facts by override_path. kdefs and klog come from the app's own
+## pin of kode-sdk: see components/camera/idf_component.yml.
+##
+## esp_cam_sensor and esp_sccb_intf pinned EXACTLY: 2.6.0's OV5640 table
+## "DVP_8bit_24Minput_RGB565_BE_800x600_10fps" is the mode the module is
+## specified in. Another release can carry another table under the same
+## name, with other clocks and timings, so moving either is a change of
+## mode, not an update.
+dependencies:
+  idf: ">=6.1"
+  kodediy/camera_bsp: {version: "==0.1.0", override_path: "../camera_bsp"}
+  espressif/esp_cam_sensor: "==2.6.0"
+  espressif/esp_sccb_intf: "==0.0.9"

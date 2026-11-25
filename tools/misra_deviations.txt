@@ -1,0 +1,30 @@
+# The MISRA C:2012 rules this code base deviates from everywhere, each with
+# its reason. A cppcheck suppressions list, read by tools/check_misra.sh.
+#
+# A rule belongs here when the deviation is a decision about how the whole
+# SDK is written. A finding with a reason of its own is deviated on its line
+# instead, and everything else is counted by the project's baseline.
+#
+# The list is kode-sdk's own (tools/misra_deviations.txt), and one rule
+# more: 21.6, for the photos' file names.
+
+# Rule 15.5 (advisory): a function should have a single point of exit.
+# A function here refuses its bad arguments first and returns, one guard a
+# line, so the body below reads without nesting. A single exit would put the
+# whole body inside the guards' else branches.
+misra-c2012-15.5
+
+# Rule 11.3 (required): a cast between pointers to different object types.
+# QP/C's event macros (Q_NEW_X, the dispatch's downcast of QEvt to the
+# Active Object's own event) are written on it: an event is a QEvt at its
+# start, by QP/C's design. Only camera_ao.c includes them (check_layers.sh,
+# rule 7).
+misra-c2012-11.3
+
+# Rule 21.6 (required): the standard library's input/output is not used.
+# Bounded formatting is snprintf(), into a buffer of the caller's size that
+# is checked against the length it returns (the file names camera_photo_save()
+# and camera_photo_recover() build in camera.c), and remove() drops the half-written
+# file of a recovery. Nothing here opens a stream or reads one; files go
+# through kode-sdk's kode_fs_*().
+misra-c2012-21.6

@@ -1,0 +1,21 @@
+version: "0.1.0"
+description: "The Camera module's shared types (camera_types.h), used by both layers."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera_types"
+license: "GPL-3.0-or-later"
+targets:
+  - esp32p4
+
+dependencies:
+  idf: ">=6.1"
+  kodediy/camera_bsp: {version: "==0.1.0", override_path: "../camera_bsp"}

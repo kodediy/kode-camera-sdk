@@ -1,0 +1,35 @@
+version: "0.1.0"
+description: "The Camera module for Kode Dot apps, standard layer (camera.h, for tasks): frames, photos and pictures from the OV5640."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera"
+license: "GPL-3.0-or-later"
+targets:
+  - esp32p4
+
+## The SDK's examples for this layer.
+examples:
+  - path: ../../examples/module
+  - path: ../../examples/settings
+
+## The entry point of the task layer: an app pins kodediy/camera and gets the owner, the drivers and the
+## module's facts from the same commit. An Active Object pins kodediy/camera_sys instead (they can be both).
+##
+## kode-sdk is not pinned here, nor anywhere under components/: the app pins it, once, in its own
+## main/idf_component.yml, and these components build on whatever release that is (v0.1.0 or later:
+## kode_sys.h, kqp.h). Two pins of kodediy/kode at two refs cannot be solved.
+dependencies:
+  idf: ">=6.1"
+  kodediy/camera_types: {version: "==0.1.0", override_path: "../camera_types"}
+  kodediy/camera_aos: {version: "==0.1.0", override_path: "../camera_aos"}
+  kodediy/camera_drv: {version: "==0.1.0", override_path: "../camera_drv"}
+  kodediy/camera_bsp: {version: "==0.1.0", override_path: "../camera_bsp"}

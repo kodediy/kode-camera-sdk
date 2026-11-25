@@ -1,0 +1,33 @@
+version: "0.1.0"
+description: "The Camera module for Kode Dot apps, extended layer (camera_sys.h, for Active Objects): commands, requests answered by signals, news."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera_sys"
+license: "GPL-3.0-or-later"
+targets:
+  - esp32p4
+
+## The SDK's examples for this layer.
+examples:
+  - path: ../../examples/console_actions
+  - path: ../../examples/photo
+  - path: ../../examples/viewer
+  - path: ../../examples/video
+
+## The entry point of the Active Object layer. Same owner as kodediy/camera: both can be in one app.
+## kode-sdk comes from the app's own pin (v0.1.0 or later).
+dependencies:
+  idf: ">=6.1"
+  kodediy/camera_types: {version: "==0.1.0", override_path: "../camera_types"}
+  kodediy/camera_aos: {version: "==0.1.0", override_path: "../camera_aos"}
+  kodediy/camera_drv: {version: "==0.1.0", override_path: "../camera_drv"}
+  kodediy/camera_bsp: {version: "==0.1.0", override_path: "../camera_bsp"}

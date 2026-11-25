@@ -1,0 +1,20 @@
+## kode-sdk at its release v0.1.5, as an app for kodeOS pins it. This tree's own components come
+## by path: the target build checks the code in the checkout, never a tag.
+dependencies:
+  idf: { version: "~6.1.0" }
+  kodediy/kode:
+    git: https://github.com/kodediy/kode-sdk.git
+    path: components/kode
+    version: v0.1.5
+  kodediy/camera:
+    override_path: "../../../components/camera"
+  kodediy/camera_sys:
+    override_path: "../../../components/camera_sys"
+  kodediy/camera_types:
+    override_path: "../../../components/camera_types"
+  kodediy/camera_aos:
+    override_path: "../../../components/camera_aos"
+  kodediy/camera_drv:
+    override_path: "../../../components/camera_drv"
+  kodediy/camera_bsp:
+    override_path: "../../../components/camera_bsp"

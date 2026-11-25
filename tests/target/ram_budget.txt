@@ -1,0 +1,63 @@
+# The budget of internal RAM for this project, read by tools/check_ram.sh:
+#
+#   ../../tools/check_ram.sh build/camera_target.elf ram_budget.txt
+#
+# This project links kode-sdk at v0.1.5 (API v4) with every Camera component on top - both
+# layers, camera.h and camera_sys.h - and CONFIG_KODEOS_RADIO=y as every app of the module needs it, so
+# what it takes of the ESP32-P4's 640 KB of internal RAM at link time is what an app that uses the module
+# starts with. Nearly all of it is kode-sdk's. The module's own statics are the owner's Active Object - its
+# stack (8 KB, below) and its queue - and about 3 KB more (the white balance's scratch of 1280 bytes, the
+# owner's state, the error texts of four tasks: 576 bytes, the sys layer's doors table). The frame task's
+# and the events task's stacks come from the heap when camera_begin() starts them, not at link time, and
+# the frame buffers are in PSRAM (docs/guide.md, "What it costs an app").
+#
+# static_max is the ceiling of that static image - code in IRAM, .data and .bss - with a few KB of room
+# above what the project takes. A change that needs more either moves something to PSRAM or raises this number in the same commit, where a reviewer sees it.
+static_max 266000
+
+# Every data symbol of 2048 bytes or more in internal RAM, with the source
+# file that defines it and the most it may be. A static this size that is not
+# listed fails the check: a buffer belongs in PSRAM (khal_alloc_psram() in
+# kode-sdk), and the ones below are here because something forces them to be
+# internal. They are kode-sdk's and the libraries', listed at the size they
+# have so that a pin that moves and grows one is seen.
+#
+# symbol               source file          max bytes
+
+# The stacks of the system Active Objects (kqp_config.h's tiers). Internal because an AO may write
+# flash, which takes PSRAM out of reach while the write lasts.
+console_stack          console_ao.c         8192
+storage_stack          storage_ao.c         6144
+radio_stack            radio_ao.c           6144
+power_stack            power_ao.c           4096
+log_stack              log_ao.c             4096
+ioexp_stack            ioexp_ao.c           4096
+boot_stack             boot_ao.c            4096
+autotest_stack         autotest_ao.c        4096
+buttons_stack          buttons_ao.c         3072
+audio_stack            audio_ao.c           3072
+
+# The owner's own stack: AO_Camera's (camera_ao.c), internal as the system
+# AOs' are, at kode-sdk's KQP_AO_STACK_BYTES.
+l_stack                camera_ao.c          8192
+
+# QP/C's three event pools.
+s_jumbo_pool           kqp.c                16560
+s_medium_pool          kqp.c                16128
+s_large_pool           kqp.c                16128
+
+# The console's Active Object. It grows with the verbs, so the line leaves
+# room.
+l_console              console_ao.c         4096
+
+# kode-sdk's own buffers: the file buffer and the app manager's two.
+s_fs_buf               kode.c               4096
+s_recv_buf             appmgr_ao.c          4096
+s_adopt_buf            appmgr_ao.c          4096
+
+# What the libraries declare. Listed so that a version bump that grows one
+# of them is seen.
+xIsrStack              port.c               3072
+s_watch_stack          khal_system_esp.c    3072
+s_retention            sleep_retention.c    2724
+gNfcDev                rfal_nfc.c           2292

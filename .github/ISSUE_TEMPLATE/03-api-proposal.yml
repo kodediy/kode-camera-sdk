@@ -1,0 +1,59 @@
+name: API proposal
+description: A new camera_* call, or a change to an existing one.
+type: Feature
+assignees:
+  - vmlorenzorod
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The rules every call keeps: one owner holds the module, and every call asks it. A call of `camera.h` that waits says WAITS in its comment, waits for at most the time it is given, and returns `bool` with `camera_error()`; a call of `camera_sys.h` never waits and returns `kode_status_t`, a request answering later with a signal. Nothing an app calls changes the sensor's clocks, frame timing, window or pads outside the two modes the SDK sets. A proposal that has to break one says why in **Risks**.
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Background and motivation
+      description: The problem this solves, who hits it and how they work around it today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API
+      description: The declarations as they would appear in camera.h and camera_sys.h, each with its Doxygen `@brief`, `@param` and `@return`.
+      render: c
+    validations:
+      required: true
+
+  - type: textarea
+    id: usage
+    attributes:
+      label: Usage
+      description: How an app would call it - a few lines of real code.
+      render: c
+    validations:
+      required: true
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Layer
+      description: |
+        Knows a position, a connector pin or a mode's numbers: camera_bsp. Knows a part (OV5640) or an ESP-IDF peripheral: camera_drv. Holds the module or decides when: camera_aos. Is what an app calls: camera and camera_sys. A call that changes a clock, the frame timing or the pads is not offered: the modes are the SDK's own (camera_bsp.h).
+      multiple: true
+      options:
+        - camera
+        - camera_sys
+        - camera_aos
+        - camera_drv
+        - camera_bsp
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks
+      description: Breaking changes, PSRAM (four frames take 3.8 MB), a peripheral that something else uses (I2C port 1, the DVP, the JPEG encoder), and anything the sensor would emit differently.

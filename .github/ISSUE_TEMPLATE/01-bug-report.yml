@@ -1,0 +1,124 @@
+name: Bug report
+description: A call of this SDK, the module's owner or a driver behaves wrongly.
+type: Bug
+assignees:
+  - vmlorenzorod
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A `kode_*` call that misbehaves with no camera plugged in belongs in [kode-sdk](https://github.com/kodediy/kode-sdk/issues/new/choose); something that only shows through kodeOS belongs in [KodeOS](https://github.com/kodediy/KodeOS/issues/new/choose). A `camera_*` call, or a module that does not do what it should, belongs here.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before you file
+      options:
+        - label: I have searched the [open and closed issues](https://github.com/kodediy/kode-camera-sdk/issues?q=is%3Aissue) and found nothing that covers this.
+          required: true
+        - label: I have reproduced it on the latest tag, or on `main`.
+          required: true
+        - label: It reproduces with the Kode Dot on the USB cable, not only on the battery (where the header's 5 V is the boost's, 0.5 A).
+
+  - type: input
+    id: sdk_version
+    attributes:
+      label: SDK version
+      description: The tag or commit your project pins - the `kodediy/camera` entry of `idf_component.yml`.
+      placeholder: v0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: kode_sdk_version
+    attributes:
+      label: kode-sdk version
+      description: The `kodediy/kode` entry of the same `idf_component.yml`.
+      placeholder: v0.1.5
+    validations:
+      required: true
+
+  - type: input
+    id: idf_version
+    attributes:
+      label: ESP-IDF version
+      description: The output of `idf.py --version`.
+      placeholder: ESP-IDF v6.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Where you believe the fault is. "Not sure" is a fine answer.
+      options:
+        - camera (the task layer, camera.h)
+        - camera_sys (the Active Object layer, camera_sys.h)
+        - camera_aos (the owner: detection, the loan of J3, the watch, focus, the still, the movie recorder)
+        - camera_drv - the sensor (OV5640 over SCCB)
+        - camera_drv - the DVP and its buffers
+        - camera_drv - the JPEG encoder
+        - camera_drv - the pixels (fit, colours) or the PPA
+        - camera_drv - the movie writer or EXIF
+        - camera_bsp (positions, the modes, the module's facts)
+        - Examples
+        - Host tests or tools
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: module
+    attributes:
+      label: Module and Dot
+      description: The module's revision (v1.0 or v1.1, printed on the board, and what `camera_status()` says), which way round it is plugged in, and the Dot's `info` from kodeOS.
+      render: text
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: What the code did, as precisely as you can. Include what `camera_error()` says (or the `kode_status_t` and `why` of an answer), `camera_status()` and exact messages.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: What the header says should happen, with a `file:line` if you have one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: The smallest `app_main()` that shows it.
+      placeholder: |
+        #include "kode.h"
+        #include "camera.h"
+
+        void app_main(void)
+        {
+            kode_init();
+            camera_begin();
+            /* ... */
+        }
+      render: c
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log
+      description: Serial output with the `camera` tags at debug level. For a panic, the full backtrace.
+      render: text
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: What you already ruled out, whether an earlier tag worked, what you suspect.

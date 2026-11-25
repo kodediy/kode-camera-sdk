@@ -1,0 +1,3 @@
+CONFIG_IDF_TARGET="linux"
+# A millisecond tick: the 5 MP grab waits for frames a few milliseconds apart.
+CONFIG_FREERTOS_HZ=1000

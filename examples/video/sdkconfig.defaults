@@ -1,0 +1,34 @@
+# The example's own settings. Everything about the board - flash, PSRAM,
+# cache, the console - arrives from kbsp's sdkconfig.board, which
+# CMakeLists.txt fetches and reads first. Do not copy any of it here.
+
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="managed_components/kodediy__kbsp/partitions.csv"
+
+# An app, launched from kodeOS: any reset goes back home.
+CONFIG_KODEOS_BOOT_ROLE_APP=y
+
+# Kept, so the console can show the header: `exp` prints
+# the header's fourteen positions, and the module's appear under "camera".
+CONFIG_KODEOS_CONSOLE=y
+
+# J3's 3.3 V, the module's supply, is switched by a pin of the Dot's C5 and kodeOS starts every app
+# with it off: camera_begin() / camera_sys_begin() switch it on with kode_sys_exp_power(), over the
+# link to the C5. So the radio is on, and the WiFi and the network are off: a WiFi scan holds the
+# link - the module's supply with it - for up to some 40 s. The link also serves the microSD,
+# which shares the controller with the C5's hosted driver.
+CONFIG_KODEOS_RADIO=y
+CONFIG_KODEOS_WIFI=n
+CONFIG_KODEOS_NET=n
+CONFIG_KODEOS_CHANNEL=n
+# BLE is left as kode-sdk sets it.
+
+# The OV5640's format tables the SDK starts from: every app that uses this SDK
+# carries these five lines (README.md, "Use it in your project").
+CONFIG_CAMERA_OV5640=y
+CONFIG_CAMERA_OV5640_AUTO_DETECT_DVP_INTERFACE_SENSOR=y
+CONFIG_CAMERA_OV5640_DVP_RGB565_800X600_10FPS=y
+CONFIG_CAMERA_OV5640_DVP_RGB565_BE_800X600_10FPS=y
+CONFIG_CAMERA_OV5640_DVP_DEFAULT_FMT_RGB565_BE_800X600_10FPS=y
+
+# The recorder runs in the camera's own tasks; the main one only reports.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192

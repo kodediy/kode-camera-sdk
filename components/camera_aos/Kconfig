@@ -1,0 +1,30 @@
+menu "Camera module SDK (KDCMR001)"
+
+    config CAMERA_AO_PRIORITY
+        int "Priority of the module's owner (0: KODE_PRIO_USER_HIGH)"
+        range 0 24
+        default 0
+        help
+            The QP/C priority of the Active Object that owns the Camera
+            module, which is also its task's FreeRTOS priority. 0 takes
+            kode-sdk's KODE_PRIO_USER_HIGH; camera_ao.c says why. Two Active
+            Objects at one level stop the board when the second starts, so
+            an app whose own Active Object needs KODE_PRIO_USER_HIGH moves
+            this one to a level nothing in its image holds.
+
+    config CAMERA_LAB
+        bool "Laboratory build: any register of the sensor"
+        default n
+        help
+            Opens what the register lock closes: camera_lab_register_write() writes
+            any register of the sensor, locked or not, and CAMERA_NIGHT (the
+            sensor's night mode, which stretches frames past their period)
+            can be set.
+
+            A build with this on can change the module's clocks, its frame
+            timing and its pads, so the frame rate and the
+            SDK's timings no longer describe it. It is for experiments with
+            the sensor's registers, and nothing else. Never ship an app built
+            with it.
+
+endmenu

@@ -1,0 +1,25 @@
+version: "0.1.0"
+description: "The Camera module's owner: the task that finds the module and keeps it streaming."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera_aos"
+license: "GPL-3.0-or-later"
+targets:
+  - esp32p4
+
+## Siblings by override_path. kode-sdk (kode_sys.h, kqp.h: the clock, J3, the files and the audio
+## through kodeOS's own Active Objects) comes from the app's own pin: see components/camera/idf_component.yml.
+dependencies:
+  idf: ">=6.1"
+  kodediy/camera_types: {version: "==0.1.0", override_path: "../camera_types"}
+  kodediy/camera_drv: {version: "==0.1.0", override_path: "../camera_drv"}
+  kodediy/camera_bsp: {version: "==0.1.0", override_path: "../camera_bsp"}

@@ -1,0 +1,21 @@
+version: "0.1.0"
+description: "The OV5640's autofocus firmware, embedded. Not carried: see NOTICE.md."
+url: "https://docs.kode.diy/modules/camera"
+repository: "https://github.com/kodediy/kode-camera-sdk.git"
+documentation: "https://docs.kode.diy/modules/camera"
+issues: "https://github.com/kodediy/kode-camera-sdk/issues"
+discussion: "https://github.com/kodediy/kode-camera-sdk/discussions"
+tags:
+  - kode-dot
+  - camera
+  - ov5640
+  - esp32p4
+repository_info:
+  path: "components/camera_focus_firmware"
+license: "GPL-3.0-or-later"
+## The license is the loader's. The firmware it embeds is not carried and is GPL-2.0-only: see NOTICE.md.
+targets:
+  - esp32p4
+
+dependencies:
+  idf: ">=6.1"

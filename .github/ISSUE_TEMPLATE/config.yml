@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The Camera module's documentation
+    url: https://docs.kode.diy/modules/camera
+    about: What the module is, its pins, and how to plug it in.
+  - name: The Kode Dot's own SDK (kode_* calls)
+    url: https://github.com/kodediy/kode-sdk/issues/new/choose
+    about: A kode_* call that misbehaves with no camera plugged in is kode-sdk's.
+  - name: kodeOS bug or feature
+    url: https://github.com/kodediy/KodeOS/issues/new/choose
+    about: The launcher, the console verbs, OTA and the app manager live in KodeOS.

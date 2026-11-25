@@ -1,0 +1,3 @@
+CONFIG_IDF_TARGET="linux"
+# A millisecond tick: the owner's steps are 20 to 100 ms.
+CONFIG_FREERTOS_HZ=1000
